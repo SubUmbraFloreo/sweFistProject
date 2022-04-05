@@ -1,0 +1,21 @@
+# Aufruf:   i.a. bereits eingestellt:   $env:SKAFFOLD_PROFILE = 'dev'
+#           skaffold dev
+
+apiVersion: skaffold/v2beta28
+kind: Config
+metadata:
+  name: backend
+deploy:
+  kustomize:
+    paths: ["prod"]
+profiles:
+  - name: dev
+    activation:
+      - env: SKAFFOLD_PROFILE=dev
+    deploy:
+      kustomize:
+        paths: ["dev"]
+    portForward:
+      - resourceType: service
+        resourceName: mongodb
+        port: 27017

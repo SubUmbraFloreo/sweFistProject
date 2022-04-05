@@ -1,0 +1,13 @@
+---
+# https://kubernetes.io/docs/concepts/policy/resource-quotas
+# https://cloud.google.com/blog/products/gcp/kubernetes-best-practices-resource-requests-and-limits
+apiVersion: v1
+kind: ResourceQuota
+metadata:
+  name: acme-quota
+spec:
+  hard:
+    requests.cpu: 5000m
+    requests.memory: 5Gi
+    limits.cpu: 15000m
+    limits.memory: 8Gi

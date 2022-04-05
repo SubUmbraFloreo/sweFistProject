@@ -1,0 +1,75 @@
+---
+apiVersion: apps/v1
+# https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.19/#deployment-v1-apps
+kind: Deployment
+metadata:
+  name: schuh
+  labels:
+    app: schuh
+spec:
+  # https://kubernetes.io/docs/concepts/workloads/controllers/deployment/#selector
+  selector:
+    matchLabels:
+      app: schuh
+  # Anzahl laufender Pods fuer das template
+  replicas: 1
+  # https://kubernetes.io/docs/concepts/workloads/pods/#pod-templates
+  template:
+    metadata:
+      labels:
+        app: schuh
+    # Spezifikation des Pod
+    spec:
+      serviceAccountName: acme-schuh
+      containers:
+        # https://kubernetes.io/docs/concepts/containers/images
+        - image: docker.io/jakobkrumke/schuh:1.0.0
+          name: schuh
+          # https://kubernetes.io/docs/tasks/inject-data-application/define-interdependent-environment-variables
+          # https://opensource.com/article/19/6/introduction-kubernetes-secrets-and-configmaps
+          envFrom:
+            # https://kubernetes.io/docs/concepts/configuration/configmap
+            - configMapRef:
+                name: schuh-env
+          env:
+            - name: DB_PASS
+              valueFrom:
+                secretKeyRef:
+                  name: mongodb
+                  key: password
+          ports:
+            - containerPort: 3000
+              name: http
+          resources:
+            # https://cloud.google.com/blog/products/gcp/kubernetes-best-practices-resource-requests-and-limits
+            # Mindestanforderung an Ressourcen:   kubectl top pod
+            requests:
+              # CPU-Ressourcen werden in "millicores" definiert, z.B. "500m" oder "1"
+              cpu: 500m
+              # Memory-Resources werden i.a. als "mebibyte" Wert definiert
+              memory: 512Mi
+            # Begrenzung der Ressourcen
+            limits:
+              cpu: 600m
+              memory: 512Mi
+          securityContext:
+            # eingebauten User aus dem Basis-Image nutzen: cnb (1000) bei "Cloud Native Buildpacks"
+            runAsNonRoot: true
+            runAsUser: 1000
+            allowPrivilegeEscalation: false
+            # Logdatei in einem Verzeichnis durch Mounting
+            readOnlyRootFilesystem: true
+          # Ist der Container "ready", um Requests zu beantworten? Sind Nachbarsysteme, z.B. DB-Server, ebenfalls "ready"?
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: http
+          volumeMounts:
+            - mountPath: /var/log/node
+              name: log-schuh
+      volumes:
+        - name: log-schuh
+          # https://kubernetes.io/docs/concepts/storage/volumes/#hostpath
+          hostPath:
+            path: /run/desktop/mnt/host/c/Zimmermann/volumes/schuh
+            type: Directory

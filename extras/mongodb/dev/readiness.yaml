@@ -1,0 +1,20 @@
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: mongodb
+spec:
+  template:
+    spec:
+      containers:
+        - name: mongo
+          readinessProbe:
+            # Anzahl Sekunden, bis die Probe fuer Readiness abgesetzt wird
+            initialDelaySeconds: 10
+            #initialDelaySeconds: 60
+            timeoutSeconds: 10
+            #timeoutSeconds: 20
+            # periodischer Abstand zwischen den Proben
+            periodSeconds: 30
+            # max. Anzahl an Fehlversuchen
+            failureThreshold: 2

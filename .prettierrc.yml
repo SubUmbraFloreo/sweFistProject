@@ -1,0 +1,12 @@
+# https://github.com/prettier/prettier/issues/4102
+# https://github.com/prettier/prettier/pull/7466
+singleQuote: true
+tabWidth: 2
+trailingComma: all
+overrides:
+  - files: '*.ts'
+    options:
+      tabWidth: 4
+  - files: '*.js'
+    options:
+      tabWidth: 4

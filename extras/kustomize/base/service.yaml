@@ -1,0 +1,14 @@
+---
+# https://kubernetes.io/docs/concepts/services-networking/connect-applications-service
+# https://kubernetes.io/docs/concepts/services-networking/service
+apiVersion: v1
+kind: Service
+metadata:
+  name: schuh
+  labels:
+    app: schuh
+spec:
+  selector:
+    app: schuh
+  ports:
+    - port: 3000

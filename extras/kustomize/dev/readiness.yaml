@@ -1,0 +1,18 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: schuh
+spec:
+  template:
+    spec:
+      containers:
+        - name: schuh
+          readinessProbe:
+            # Anzahl Sekunden, bis die Probe fuer Liveness abgesetzt wird
+            initialDelaySeconds: 10
+            timeoutSeconds: 5
+            # periodischer Abstand zwischen den Proben
+            periodSeconds: 20
+            # max. Anzahl an Fehlversuchen
+            failureThreshold: 2
