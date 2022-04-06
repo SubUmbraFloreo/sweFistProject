@@ -2,11 +2,11 @@ import {
     Injectable,
     Logger,
     type OnApplicationShutdown,
+    ShutdownSignal
 } from '@nestjs/common';
 import { MongoClient } from 'mongodb';
 import { dbConfig } from '../config/db.js';
 import mongoose from 'mongoose';
-import { ShutdownSignal } from './shutdown-signal.enum.js';
 
 /**
  * Die Datenbank wird im Development-Modus neu geladen, anachdem die Module gestartet wurden

@@ -1,4 +1,4 @@
-import { type Schuh, type SchuhDocument, modelName } from '../entity/schuh';
+import { type Schuh, type SchuhDocument, modelName } from '../entity/schuh.js';
 import {
     type SchuhNotExists,
     type CreateError,
@@ -6,7 +6,7 @@ import {
     type VersionInvalid,
     type VersionOutdated,
 } from './errors';
-import { SchuhValidationService } from './schuh-validation.service';
+import { SchuhValidationService } from './schuh-validation.service.js';
 import { InjectModel } from '@nestjs/mongoose';
 import { Injectable } from '@nestjs/common';
 import { ObjectID } from 'bson';

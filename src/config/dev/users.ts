@@ -1,20 +1,3 @@
-/*
- * Copyright (C) 2016 - present Juergen Zimmermann, Hochschule Karlsruhe
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <https://www.gnu.org/licenses/>.
- */
-
 import { type User } from '../../security/auth/service/user.service.js';
 import { env } from '../env.js';
 
@@ -34,30 +17,30 @@ export const users: User[] = [
     },
     {
         userId: 2,
-        username: 'adriana.alpha',
+        username: 'anton.adam',
         password,
-        email: 'adriana.alpha@acme.com',
+        email: 'anton.adam@acme.com',
         roles: ['admin', 'mitarbeiter'],
     },
     {
         userId: 3,
-        username: 'alfred.alpha',
+        username: 'ben.bahns',
         password,
-        email: 'alfred.alpha@acme.com',
+        email: 'ben.bahns@acme.com',
         roles: ['mitarbeiter'],
     },
     {
         userId: 4,
-        username: 'antonia.alpha',
+        username: 'carla.concella',
         password,
-        email: 'antonia.alpha@acme.com',
+        email: 'carla.conclella@acme.com',
         roles: ['mitarbeiter'],
     },
     {
         userId: 5,
-        username: 'dirk.delta',
+        username: 'daniel.ducken',
         password,
-        email: 'dirk.delta@acme.com',
+        email: 'daniel.ducken@acme.com',
         roles: ['kunde'],
     },
     {
