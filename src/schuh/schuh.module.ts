@@ -9,7 +9,7 @@ import {
     SchuhWriteService,
     SchuhValidationService,
 } from './service/index.js';
-// GraphQL
+import { SchuhQueryResolver, SchuhMutationResolver } from './graphql/index.js';
 import { schuhSchema, collectionName } from './entity/index.js';
 import { AuthModule } from '../security/auth/auth.module.js';
 import { DbModule } from '../db/db.module.js';
@@ -39,8 +39,8 @@ import { MongooseModule } from '@nestjs/mongoose';
         SchuhReadService,
         SchuhWriteService,
         SchuhValidationService,
-        // Query
-        // Mutation
+        SchuhQueryResolver,
+        SchuhMutationResolver,
     ],
     exports: [
         SchuhFileService,

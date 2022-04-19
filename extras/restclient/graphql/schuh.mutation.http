@@ -1,0 +1,104 @@
+## Einloggen in der Rolle "admin", "mitarbeiter" und "kunde"
+// @name login
+POST {{graphQlUrl}}
+Content-Type: application/json
+X-REQUEST-TYPE: GraphQL
+
+mutation {
+  login(username: "admin", password: "p") { token expiresIn roles }
+}
+
+###  Anlegen eines neuen Schuh Datensatzes
+POST {{graphQlUrl}}
+Content-Type: application/json
+Authorization: Bearer {{login.response.body.$.data.login.token}}
+X-REQUEST-TYPE: GraphQL
+
+mutation {
+    create(
+        marke: "Nike",
+        groesse: 42,
+        modell: "Air Jordan 1 High",
+        farbe: "Light Smoke Grey",
+        erscheinungsdatum: "2022-01-01"
+    )
+}  
+
+###  Anlegen eines neuen Schuh Datensatzes mit Fehler
+POST {{graphQlUrl}}
+Content-Type: application/json
+Authorization: Bearer {{login.response.body.$.data.login.token}}
+X-REQUEST-TYPE: GraphQL
+
+mutation {
+    create(
+        marke: "Nike",
+        groesse: -1,
+        modell: "Air Jordan 1 High",
+        farbe: "Light Smoke Grey",
+        erscheinungsdatum: "2022-01-01"
+    )
+}  
+
+### Vorhandenen Schuh Datensatz aktualisieren
+POST {{graphQlUrl}}
+Content-Type: application/json
+Authorization: Bearer {{login.response.body.$.data.login.token}}
+X-REQUEST-TYPE: GraphQL
+
+mutation {
+    update(
+    id: "000000000000000000000001",
+    version: 0,
+    schuh: {
+        marke: "Nike",
+        groesse: 43,
+        modell: "Jordan 4",
+        farbe: "Metallic Green",
+        erscheinungsdatum: "2022-04-18"
+    }
+    )
+}
+
+
+### Vorhandenen Schuh Datensatz aktualisieren mit Fehler
+### dazu erst aktualisieren um Versionsnummer zu ändern
+POST {{graphQlUrl}}
+Content-Type: application/json
+Authorization: Bearer {{login.response.body.$.data.login.token}}
+X-REQUEST-TYPE: GraphQL
+
+mutation {
+    update(
+    id: "000000000000000000000001",
+    version: 0,
+    schuh: {
+        marke: "Nike",
+        groesse: 43,
+        modell: "Jordan 4",
+        farbe: "Metallic Green",
+        erscheinungsdatum: "2022-04-18"
+    }
+    )
+}
+
+### Vorhandenen Schuh löschen
+POST {{graphQlUrl}}
+Content-Type: application/json
+Authorization: Bearer {{login.response.body.$.data.login.token}}
+X-REQUEST-TYPE: GraphQL
+
+mutation {
+  delete(id: "000000000000000000000006")
+}
+
+
+### Nicht vorhandenen Schuh löschen
+POST {{graphQlUrl}}
+Content-Type: application/json
+Authorization: Bearer {{login.response.body.$.data.login.token}}
+X-REQUEST-TYPE: GraphQL
+
+mutation {
+  delete(id: "000000000000000000000007")
+}

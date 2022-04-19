@@ -1,0 +1,18 @@
+### Scuhe alle Schuhe
+GET {{restUrl}}
+
+### Suche einen Schuh mit vorhandener Id
+GET {{restUrl}}/000000000000000000000001
+
+### Suche mit vorhandener Id und Versionsnummer
+GET {{restUrl}}/000000000000000000000002
+If-None-Match: "0"
+
+### Suche mit ungütltiger ID
+GET {{restUrl}}/YYYYYYYYYYYYYYYYYYYYYYYY
+
+### Suche mit nicht vorhandener Id
+GET {{restUrl}}/999999999999999999999999
+
+### Suche mit Query Parameter
+GET {{restUrl}}?marke=Nike

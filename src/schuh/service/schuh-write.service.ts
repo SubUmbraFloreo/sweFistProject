@@ -92,6 +92,7 @@ export class SchuhWriteService {
             schuh,
             options,
         );
+        this.#logger.debug("Test: updated=%o", updated);
         if (updated === null) {
             this.#logger.debug('update: schuh=%o not found', schuh);
             return { type: 'SchuhNotExists', id };
@@ -186,7 +187,7 @@ export class SchuhWriteService {
             this.#logger.debug('#checkIdAndVersion: SchuhNotExists=%o', result);
             return result;
         }
-
+        
         const versionDb = (schuhDb.__v ?? 0) as number;
         if (version < versionDb) {
             const result: VersionOutdated = {

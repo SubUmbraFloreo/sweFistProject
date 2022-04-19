@@ -2,12 +2,12 @@ import { type GenericJsonSchema } from './GenericJsonSchema.js';
 
 export const jsonSchema: GenericJsonSchema = {
     $schema: 'https://json-schema.org/draft/2020-12/schema',
-    $id: 'https.//acme.com/schuh.jon#',
+    $id: 'https://acme.com/schuh.json#',
     title: 'Schuh',
     description: 'Eigenschaften eines Schuhs: Typen und Constraints',
     type: 'object',
     properties: {
-        _id: { type: 'object '},
+        _id: { type: 'object' },
         __v: {
             type: 'number',
             minimum: 0,
@@ -17,7 +17,10 @@ export const jsonSchema: GenericJsonSchema = {
             minimum: 0,
         },
         marke: { type: 'string' },
-        groesse: { type: 'number'},
+        groesse: { 
+            type: 'number',
+            minimum: 0,
+        },
         modell: { type: 'string' },
         farbe: { type: 'string' },
         erscheinungsdatum: { 
@@ -26,6 +29,7 @@ export const jsonSchema: GenericJsonSchema = {
         },
     },
 
+    required: [],
     additionalProperties: false,
     errorMessage: {
         properties: {

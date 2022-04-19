@@ -40,7 +40,7 @@ export interface SchuhNotExists {
 /**
  * Union-Type für Fehler beim Ändern eines Schuhs
  * - {@linkcode SchuhNotExists}
- * - {@linkcode ConstrainsViolations}
+ * - {@linkcode ConstraintViolations}
  * - {@linkcode VersionInvalid}
  * - {@linkcode VersionOutdated}
  */

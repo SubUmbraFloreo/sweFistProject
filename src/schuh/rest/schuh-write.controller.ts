@@ -42,7 +42,7 @@ import { paths } from '../../config/index.js';
 @Controller(paths.api)
 @UseGuards(JwtAuthGuard, RolesGuard)
 @UseInterceptors(ResponseTimeInterceptor)
-@ApiTags('Rest-Api')
+@ApiTags('REST-API')
 @ApiBearerAuth()
 export class SchuhWriteController {
     readonly #service: SchuhWriteService;

@@ -1,0 +1,45 @@
+### Suche id, marke, modell und version von allen Datensätzen
+POST {{graphQlUrl}}
+Content-Type: application/json
+X-REQUEST-TYPE: GraphQL
+
+{
+    schuhe {
+        id
+        marke
+        modell
+        version
+    }
+}
+
+### Suche marke, modell und farbe von einem Schuh mit vorhandener id
+POST {{graphQlUrl}}
+Content-Type: application/json
+X-REQUEST-TYPE: GraphQL
+
+query ($id: ID! = "000000000000000000000001") {
+    schuh(id: $id) {
+        marke
+        modell
+        farbe
+    }
+}
+
+{
+    "id": "000000000000000000000001"
+}
+
+### Suche marke, modell und farbe von einem Schuh mit nicht vorhandener id
+POST {{graphQlUrl}}
+Content-Type: application/json
+X-REQUEST-TYPE: GraphQL
+
+query ($id: ID! = "999999999999999999999999") {
+  buch(id: $id) {
+    titel
+  }
+}
+
+{
+  "id": "999999999999999999999999"
+}

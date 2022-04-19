@@ -1,0 +1,40 @@
+# Funktionen um Schuhdaten zu laden
+type Query {
+    schuhe(marke: String): [Schuh]
+
+    schuh(id: ID!): Schuh
+}
+
+# Funktionen um Schuhdaten zu aktualisieren oder zu löschen
+type Mutation {
+    create(
+        marke: String,
+        groesse: Int,
+        modell: String,
+        farbe: String,
+        erscheinungsdatum: String
+        ): String
+
+    update(id: ID, version: Int, schuh: SchuhUpdateInput!): Int
+
+    delete(id: ID!): Boolean
+}
+
+# Schema eines Schuhs
+type Schuh {
+    id: ID,
+    marke: String,
+    groesse: Int,
+    modell: String,
+    farbe: String,
+    erscheinungsdatum: String,
+    version: Int
+}
+
+input SchuhUpdateInput {
+    marke: String,
+    groesse: Int,
+    modell: String,
+    farbe: String,
+    erscheinungsdatum: String
+}

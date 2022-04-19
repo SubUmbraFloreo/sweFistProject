@@ -133,31 +133,31 @@ export class SchuhGetController {
 
         let schuh: SchuhDocument | undefined;
         try {
-        schuh = await this.#service.findById(id);
-    } catch (err) {
-        this.#logger.error('findById: error=%o', err);
-        return res.sendStatus(HttpStatus.INTERNAL_SERVER_ERROR);
-    }
+            schuh = await this.#service.findById(id);
+        } catch (err) {
+            this.#logger.error('findById: error=%o', err);
+            return res.sendStatus(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
 
-    if (schuh === undefined) {
-        this.#logger.debug('findById: NOT_FOUND');
-        return res.sendStatus(HttpStatus.NOT_FOUND);
-    }
-    this.#logger.debug('findById(): schuh=%o', schuh);
+        if (schuh === undefined) {
+            this.#logger.debug('findById: NOT_FOUND');
+            return res.sendStatus(HttpStatus.NOT_FOUND);
+        }
+        this.#logger.debug('findById(): schuh=%o', schuh);
 
-    // Setzen der ETags
-    const versionDB = schuh.__v as number;
-    if (version === `"${versionDB}"`) {
-        this.#logger.debug('findById: NOT_MODIFIED');
-        return res.sendStatus(HttpStatus.NOT_MODIFIED);
-    }
-    this.#logger.debug('findById: versionDB=%s', versionDB);
-    res.header('Etag', `"${versionDB}"`);
+        // Setzen der ETags
+        const versionDB = schuh.__v as number;
+        if (version === `"${versionDB}"`) {
+            this.#logger.debug('findById: NOT_MODIFIED');
+            return res.sendStatus(HttpStatus.NOT_MODIFIED);
+        }
+        this.#logger.debug('findById: versionDB=%s', versionDB);
+        res.header('Etag', `"${versionDB}"`);
 
-    const schuhVO = this.#toVO(schuh, req, id);
-    this.#logger.debug('findById: schuhVO=%o', schuhVO);
-    return res.json(schuhVO);
-}   
+        const schuhVO = this.#toVO(schuh, req, id);
+        this.#logger.debug('findById: schuhVO=%o', schuhVO);
+        return res.json(schuhVO);
+    }   
     /**
      * Alle Schuhe werden gesucht
      * @param query Query-Parameter von Express

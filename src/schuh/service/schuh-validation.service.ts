@@ -16,7 +16,7 @@ export class SchuhValidationService {
     readonly #logger = getLogger(SchuhValidationService.name);
 
     constructor() {
-        formatsPlugin(this.#ajv, ['date', 'email', 'uri']);
+        formatsPlugin(this.#ajv, ['date', 'uri']);
         ajvErrors(this.#ajv);
     }
 
