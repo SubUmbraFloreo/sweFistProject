@@ -45,8 +45,6 @@
     "prettier": "prettier --write \"src/**/*.ts\" \"__tests__/**/*.ts\"",
     "prettier:check": "prettier --check \"src/**/*.ts\" \"__tests__/**/*.ts\"",
     "revealjs": "asciidoctor-revealjs extras/doc/folien/folien.adoc",
-
-
     "rmi": "docker rmi jakobkrumke/schuh:1.0.0",
     "snyk:auth": "echo https://app.snyk.io/account && snyk auth",
     "snyk": "snyk test",
