@@ -10,3 +10,5 @@ PUT {{restUrl}}/000000000000000000000001
 Content-Type: application/json
 Authorization: Bearer {{login.response.body.$.token}}
 If-Match: "0"
+
+< .\json\schuh-update.json

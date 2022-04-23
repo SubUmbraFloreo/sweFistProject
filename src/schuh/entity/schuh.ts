@@ -7,7 +7,6 @@ import { ApiProperty } from '@nestjs/swagger';
 import { type ObjectID } from 'bson';
 import { dbConfig } from '../../config/index.js';
 import mongoose from 'mongoose';
-import { getLogger } from '../../logger/index.js';
 
 mongoose.SchemaType.set('debug', true);
 
@@ -49,16 +48,13 @@ const optimistic = (schema: mongoose.Schema<mongoose.Document<Schuh>>) => {
     schema.pre<
         mongoose.Query<mongoose.Document<Schuh>, mongoose.Document<Schuh>>
     >('findOneAndUpdate', function () {
-        const logger = getLogger("Testlogger"); //remove
         const update = this.getUpdate(); // eslint-disable-line @typescript-eslint/no-invalid-this
         if (update === null) {
             return;
         }
-        // Hier kommt undefined von this.getUpdate() zurück
-        logger.debug(`update: ${update}`); //remove
+
         const updateDoc = update as mongoose.Document<Schuh>;
         
-        logger.debug(`update: ${updateDoc}`); //remove
         if (updateDoc.__v !== null) {
             delete updateDoc.__v;
         }

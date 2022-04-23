@@ -11,6 +11,7 @@ scripts/*
 temp/*
 node_modules/*
 src/*
+__tests__/*
 
 # default:
 #node_modules/*

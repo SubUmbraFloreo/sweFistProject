@@ -8,7 +8,7 @@ export interface ConstraintViolations {
 
 /**
  * Klasse für Fehler beim Neuanlegen eines Schuhs
- * - {@linkcode ConstrainsViolations}
+ * - {@linkcode ConstraintViolations}
  */
 export type CreateError = ConstraintViolations
 

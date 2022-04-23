@@ -51,11 +51,7 @@ mutation {
     id: "000000000000000000000001",
     version: 0,
     schuh: {
-        marke: "Nike",
-        groesse: 43,
-        modell: "Jordan 4",
-        farbe: "Metallic Green",
-        erscheinungsdatum: "2022-04-18"
+        groesse: 43
     }
     )
 }

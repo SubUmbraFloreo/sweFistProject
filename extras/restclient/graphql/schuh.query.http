@@ -22,6 +22,7 @@ query ($id: ID! = "000000000000000000000001") {
         marke
         modell
         farbe
+        groesse
     }
 }
 
