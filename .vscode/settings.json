@@ -13,10 +13,10 @@
       "fileUrl": "http://localhost:3000/file"
     },
     "heroku": {
-      "restUrl": "https://protected-eyrie-38026.herokuapp.com/api",
-      "authUrl": "https://protected-eyrie-38026.herokuapp.com/auth",
-      "graphQlUrl": "https://protected-eyrie-38026.herokuapp.com/graphql",
-      "fileUrl": "https://protected-eyrie-38026.herokuapp.com:3000/file"
+      "restUrl": "https://ancient-anchorage-02422.herokuapp.com/api",
+      "authUrl": "https://ancient-anchorage-02422.herokuapp.com/auth",
+      "graphQlUrl": "https://ancient-anchorage-02422.herokuapp.com/graphql",
+      "fileUrl": "https://ancient-anchorage-02422.herokuapp.com:3000/file"
     }
   }
 }
