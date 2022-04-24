@@ -40,7 +40,7 @@ export class InfoService implements OnApplicationBootstrap {
         const isK8s = k8sConfig.detected;
         let plattform: string;
         if (isK8s) {
-            plattform = `Kubernetes: BUCH_SERVICE_HOST=${serviceHost}, BUCH_SERVICE_PORT=${servicePort}`;
+            plattform = `Kubernetes: SCHUH_SERVICE_HOST=${serviceHost}, SCHUH_SERVICE_PORT=${servicePort}`;
         } else if (cloud === 'heroku') {
             plattform = 'Heroku';
         } else {
