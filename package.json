@@ -30,7 +30,7 @@
     "clinic": "clinic doctor -- node dist/src/main.js",
     "clean": "rimraf dist log/server*.log",
     "depcheck": "depcheck",
-    "deploy:heroku": "git push heroku main",
+    "deploy:heroku": "git push heroku master",
     "deploy:prepare": "concurrently --prefix \"[{name}]\" --names \"ESLint,copy-resources,TypeScript\" --prefix-colors \"yellow.bold,gray.bold,cyan.bold,green.bold\" \"npm run eslint\" \"npm run copy-resources\" \"npm run tsc\"",
     "eslint": "eslint --ext .ts ./src ./__tests__",
     "copy-resources": "node scripts/copy-resources",
