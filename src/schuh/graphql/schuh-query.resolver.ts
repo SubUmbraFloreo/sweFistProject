@@ -13,18 +13,18 @@ export type SchuhVO = Schuh & {
 export interface SchuhUpdateInput {
     id?: string;
     version?: number;
-    schuh: Schuh
+    schuh: Schuh;
 }
 
 interface Id {
     id: string;
 }
 
-
 @Resolver()
 @UseInterceptors(ResponseTimeInterceptor)
 export class SchuhQueryResolver {
     readonly #service: SchuhReadService;
+
     readonly #logger = getLogger(SchuhQueryResolver.name);
 
     constructor(service: SchuhReadService) {
@@ -51,13 +51,16 @@ export class SchuhQueryResolver {
         const markeString = marke?.marke;
         this.#logger.debug('find: marke=%s', markeString);
 
-        const suchkriterium = markeString === undefined ? undefined : { marke: markeString };
+        const suchkriterium =
+            markeString === undefined ? undefined : { marke: markeString };
         const schuhe = await this.#service.find(suchkriterium);
         if (schuhe.length === 0) {
-            throw new UserInputError(`Keine Schuhe mit Marke ${markeString} gefunden`);
+            throw new UserInputError(
+                `Keine Schuhe mit Marke ${markeString} gefunden`,
+            );
         }
 
-        const schuheVO = schuhe.map(schuh => this.#toSchuhVO(schuh));
+        const schuheVO = schuhe.map((schuh) => this.#toSchuhVO(schuh));
         this.#logger.debug('find: schuheVO=%o', schuheVO);
         return schuheVO;
     }

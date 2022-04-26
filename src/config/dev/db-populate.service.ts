@@ -76,9 +76,12 @@ export class DbPopulateService implements OnApplicationBootstrap {
         );
 
         // https://mongoosejs.com/docs/api.html#model_Model.insertMany
-        const insertedDocs = await this.#schuhModel.insertMany(this.#testdaten, {
-            lean: true,
-        });
+        const insertedDocs = await this.#schuhModel.insertMany(
+            this.#testdaten,
+            {
+                lean: true,
+            },
+        );
         this.#logger.warn(
             '#populateTestdaten: %d Datensaetze eingefuegt',
             insertedDocs.length,

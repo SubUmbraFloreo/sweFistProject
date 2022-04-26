@@ -1,5 +1,5 @@
 import { ApiConsumes, ApiTags } from '@nestjs/swagger';
-import { SchuhFileService, type FileFindError } from '../service/index.js';
+import { type FileFindError, SchuhFileService } from '../service/index.js';
 import {
     Controller,
     Get,
@@ -18,17 +18,21 @@ import { ResponseTimeInterceptor, getLogger } from '../../logger/index.js';
 import { FileInterceptor } from '@nestjs/platform-express';
 import fileTypePkg from 'file-type';
 
+/**
+ * Controller für das Uploaden und Downloaden von Dateien
+ */
 @Controller('file')
 @UseGuards(JwtAuthGuard, RolesGuard)
 @UseInterceptors(ResponseTimeInterceptor)
 @ApiTags('Rest-Api')
 export class SchuhFileController {
-    readonly #service: SchuhFileService; 
+    readonly #service: SchuhFileService;
+
     readonly #logger = getLogger(SchuhFileController.name);
 
     constructor(service: SchuhFileService) {
         this.#service = service;
-    }   
+    }
 
     @Put(':id')
     @Roles('admin')
@@ -55,10 +59,7 @@ export class SchuhFileController {
     }
 
     @Get(':id')
-    async download(
-        @Param('id') id: string,
-        @Res() res: Response,
-    ) {
+    async download(@Param('id') id: string, @Res() res: Response) {
         this.#logger.debug('download: id=%s', id);
 
         const findResult = await this.#service.find(id);
@@ -79,14 +80,12 @@ export class SchuhFileController {
                 const { id } = err;
 
                 const msg = `Schuh mit ID ${id} nicht gefunden`;
-                this.#logger.debug(
-                    '#handleFindError: SchuhNotExists: msg=%s',
-                );
+                this.#logger.debug('#handleFindError: SchuhNotExists: msg=%s');
                 return res
                     .status(HttpStatus.PRECONDITION_FAILED)
                     .set('Content-Type', 'text/plain')
                     .send(msg);
-                }
+            }
 
             case 'FileNotFound': {
                 const { filename } = err;
@@ -108,10 +107,8 @@ export class SchuhFileController {
                 return res.status(HttpStatus.INTERNAL_SERVER_ERROR).send(msg);
             }
 
-            default: 
+            default:
                 return res.sendStatus(HttpStatus.INTERNAL_SERVER_ERROR);
-            
         }
-
     }
 }

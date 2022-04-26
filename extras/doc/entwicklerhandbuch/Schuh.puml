@@ -1,0 +1,37 @@
+@startuml
+
+package @nestjs/mongoose {
+  class "function Schema() : PropertyDecorator" as Schema
+  class "function Prop() : PropertyDecorator" as Prop
+}
+
+package mongoose {
+  class Document
+}
+
+package schuh.entity {
+    class "type SchuhDocument = Schuh & Document<>" as SchuhDocument
+    hide SchuhDocument circle
+
+    SchuhDocument ..> Schuh
+    SchuhDocument .right.> Document 
+
+    class Schuh
+
+    Schuh .right.> Schema
+    Schuh .right.> Prop
+
+    class Schuh <<entity>> <<@Schema>> {
+        + @Prop marke: string
+        + @Prop groesse: number
+        + @Prop erscheinungsdatum: Date
+        + @Prop farbe: string
+        + @Prop modell: string
+    }    
+}
+
+hide empty members
+
+footer (c) Jakob Krumke
+
+@enduml

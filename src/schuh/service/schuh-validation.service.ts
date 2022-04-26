@@ -20,6 +20,12 @@ export class SchuhValidationService {
         ajvErrors(this.#ajv);
     }
 
+    /**
+     * Eine Funktion zur Validierung, wenn neue Schuhe angelegt werden, oder vorhandene
+     * aktualisiert werden sollen
+     * @param schuh Das Schuh-Objekt
+     * @returns Eine Liste mit Fehlern
+     */
     validate(schuh: Schuh) {
         const validate = this.#ajv.compile<Schuh>(jsonSchema);
         validate(schuh);
@@ -28,11 +34,11 @@ export class SchuhValidationService {
         const messages = errors
             .map((error) => error.message)
             .filter((msg) => msg !== undefined);
-            this.#logger.debug(
-                'validate: errors=%o, messages=%o',
-                errors,
-                messages,
-            );
-            return messages as string[];
+        this.#logger.debug(
+            'validate: errors=%o, messages=%o',
+            errors,
+            messages,
+        );
+        return messages as string[];
     }
 }

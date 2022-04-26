@@ -10,6 +10,9 @@ import mongoose from 'mongoose';
 
 mongoose.SchemaType.set('debug', true);
 
+/**
+ * Die Mongoose-configuration.
+ */
 const MONGOOSE_OPTIONS: mongoose.SchemaOptions = {
     // createdAt und updatedAt als automatisch gepflegte Felder
     timestamps: true,
@@ -21,12 +24,15 @@ const MONGOOSE_OPTIONS: mongoose.SchemaOptions = {
     autoIndex: dbConfig.autoIndex,
 };
 
+/**
+ * Das Schema für _Schuh_.
+ */
 @Schema(MONGOOSE_OPTIONS)
 export class Schuh {
     @Prop({ type: String, required: true })
     @ApiProperty({ example: 'Nike', type: String })
     readonly marke: string | null | undefined;
-    
+
     @Prop({ type: Number, required: true })
     @ApiProperty({ example: 43, type: Number })
     readonly groesse: number | null | undefined;
@@ -54,7 +60,7 @@ const optimistic = (schema: mongoose.Schema<mongoose.Document<Schuh>>) => {
         }
 
         const updateDoc = update as mongoose.Document<Schuh>;
-        
+
         if (updateDoc.__v !== null) {
             delete updateDoc.__v;
         }
@@ -84,12 +90,13 @@ const optimistic = (schema: mongoose.Schema<mongoose.Document<Schuh>>) => {
 //Schema für die Klasse *Buch* erzeugen
 export const schuhSchema = SchemaFactory.createForClass(Schuh);
 
+//Erzeugen der Indexe
 schuhSchema.index({ marke: 1 }, { name: 'marke' });
 schuhSchema.index({ farbe: 1 }, { name: 'farbe' });
 
-export type SchuhDocument = Schuh &
-    mongoose.Document<ObjectID, any, Schuh> & { _id: ObjectID; __v: number }; //eslint-disable-line @typescript-eslint/naming-convention
-    
+export type SchuhDocument = mongoose.Document<ObjectID, any, Schuh> &
+    Schuh & { _id: ObjectID; __v: number }; //eslint-disable-line @typescript-eslint/naming-convention
+
 schuhSchema.plugin(optimistic);
 
 export const modelName = 'Schuh';
@@ -100,5 +107,5 @@ export const exactFilterProperties = [
     'groesse',
     'modell',
     'farbe',
-    'erscheinungsdatum'
+    'erscheinungsdatum',
 ];

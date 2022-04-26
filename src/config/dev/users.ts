@@ -5,7 +5,6 @@ const { password } = env.authConfigEnv;
 
 /**
  * Ein JSON-Array der Benutzerdaten mit den vorhandenen Rollen.
- * Nicht Set, weil es dafür keine Suchfunktion gibt.
  */
 export const users: User[] = [
     {

@@ -15,12 +15,12 @@ import RE2 from 're2';
 
 // Testdaten
 const neuerSchuh: Schuh = {
-    "marke": 'Adidas',
-    "groesse": 40,
-    "modell": 'Alphabounce',
-    "farbe": 'Undye/Gum Bottom',
-    "erscheinungsdatum": '2017-10-20'
-}
+    marke: 'Adidas',
+    groesse: 40,
+    modell: 'Alphabounce',
+    farbe: 'Undye/Gum Bottom',
+    erscheinungsdatum: '2017-10-20',
+};
 
 /* const falscherSchuh: Record<string, unknown> = {
     "marke": '',
@@ -34,17 +34,19 @@ const neuerSchuh: Schuh = {
 describe('POST /api', () => {
     let client: AxiosInstance;
     const headers: Record<string, string> = {
+        // eslint-disable-next-line @typescript-eslint/naming-convention
         'Content-Type': 'application/json',
     };
-    
+
     beforeAll(async () => {
         await createTestserver();
         const baseURL = `https://${host}:${port}/`;
         client = axios.create({
             baseURL,
             httpsAgent,
+            // eslint-disable-next-line @typescript-eslint/no-magic-numbers
             validateStatus: (status) => status < 500,
-            });
+        });
     });
 
     afterAll(async () => {
@@ -54,9 +56,14 @@ describe('POST /api', () => {
     test('Neuer Schuh', async () => {
         const token = await loginRest(client);
         headers.Authorization = `Bearer ${token}`;
+        // eslint-disable-next-line @typescript-eslint/naming-convention
         const IdRegex = new RE2('[\\dA-Fa-f]{24}', 'u');
 
-        const response: AxiosResponse<string> = await client.post(apiPath, neuerSchuh, { headers });
+        const response: AxiosResponse<string> = await client.post(
+            apiPath,
+            neuerSchuh,
+            { headers },
+        );
         const { status, data } = response;
 
         expect(status).toBe(HttpStatus.CREATED);
@@ -71,23 +78,4 @@ describe('POST /api', () => {
 
         expect(data).toBe('');
     });
-
-    /* test('Neuer Schuh mit ungültigen Daten', async () => {
-        const token = await loginRest(client);
-        headers.Authorization = `Bearer ${token}`;
-
-        const response: AxiosResponse<string> = await client.post(apiPath, falscherSchuh, { headers });
-        const { status, data } = response;
-
-        expect(status).toBe(HttpStatus.UNPROCESSABLE_ENTITY);
-        expect(data).toBe(
-            expect.arrayContaining([
-            'Die Versionsnummer muss mindestens 0 sein',
-            'Ein Schuh muss eine Marke haben',
-            'Ein Schuh hat eine bestimmte Größe',
-            'Ein Schuh hat eine oder meherere Farben',
-            'Ein Schuh hat ein Datum, an dem er erschienen ist',
-            ])
-        );
-    }); */
 });

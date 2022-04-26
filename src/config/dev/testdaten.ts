@@ -59,6 +59,6 @@ export const testdaten: SchuhIdVersion[] = [
         farbe: 'White',
         erscheinungsdatum: new Date('2021-07-26'),
         __v: 0,
-    }
+    },
 ];
 /* eslint-enable @typescript-eslint/naming-convention */

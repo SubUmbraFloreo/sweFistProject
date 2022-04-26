@@ -10,7 +10,7 @@ export interface ConstraintViolations {
  * Klasse für Fehler beim Neuanlegen eines Schuhs
  * - {@linkcode ConstraintViolations}
  */
-export type CreateError = ConstraintViolations
+export type CreateError = ConstraintViolations;
 
 /**
  * Klasse für eineungültige Versionsnummer beim Ändern
@@ -45,8 +45,8 @@ export interface SchuhNotExists {
  * - {@linkcode VersionOutdated}
  */
 export type UpdateError =
-    | SchuhNotExists
     | ConstraintViolations
+    | SchuhNotExists
     | VersionInvalid
     | VersionOutdated;
 
@@ -58,7 +58,7 @@ export interface FileNotFound {
     readonly filename: string;
 }
 
-/** 
+/**
  * Klasse für den Fall, dass es mehrere binäre Dateien zu einem Schuh gibt
  */
 export interface MultipleFiles {
@@ -81,7 +81,7 @@ export interface InvalidContentType {
  * - {@linkcode MultipleFiles}
  */
 export type FileFindError =
-    | SchuhNotExists
     | FileNotFound
     | InvalidContentType
-    | MultipleFiles;
+    | MultipleFiles
+    | SchuhNotExists;

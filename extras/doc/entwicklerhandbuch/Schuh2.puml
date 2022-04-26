@@ -1,0 +1,117 @@
+@startuml Entity
+interface NodeConfigEnv {
+    +nodeEnv: string | undefined
+    +port: string | undefined
+    +serviceHost: string | undefined
+    +servicePort: string | undefined
+}
+interface ApolloConfigEnv {
+    +debug: string | undefined
+}
+interface K8sConfigEnv {
+    +tls: string | undefined
+}
+interface DbConfigEnv {
+    +name: string | undefined
+    +host: string | undefined
+    +user: string | undefined
+    +password: string | undefined
+    +autoIndex: string | undefined
+    +populate: string | undefined
+    +populateFiles: string | undefined
+}
+interface AuthConfigEnv {
+    +expiresIn: string
+    +issuer: string
+    +password: string
+}
+interface LogConfigEnv {
+    +logLevel: pino.Level | undefined
+    +logDir: string | undefined
+    +pretty: boolean
+    +def: boolean
+}
+interface MailConfigEnv {
+    +host: string | undefined
+    +port: string | undefined
+    +log: string | undefined
+}
+interface Env {
+    +nodeConfigEnv: NodeConfigEnv
+    +apolloConfigEnv: ApolloConfigEnv
+    +k8sConfigEnv: K8sConfigEnv
+    +dbConfigEnv: DbConfigEnv
+    +authConfigEnv: AuthConfigEnv
+    +logConfigEnv: LogConfigEnv
+    +mailConfigEnv: MailConfigEnv
+}
+interface K8sConfig {
+    +detected: boolean
+    +tls: boolean
+}
+interface DbConfig {
+    +atlas: boolean
+    +url: string
+    +dbName: string
+    +autoIndex: boolean
+    +dbPopulate: boolean
+    +dbPopulateFiles: boolean
+}
+class RequestLoggerMiddleware implements NestMiddleware {
+    +#logger: pino.Logger<SonicBoom & pino.ChildLoggerOptions>
+    +use(req: Request<ParamsDictionary, any, any, QueryString.ParsedQs, Record<string, any>>, _res: Response<any, Record<string, any>>, next: NextFunction): void
+}
+class ResponseTimeInterceptor implements NestInterceptor {
+    +#logger: pino.Logger<SonicBoom & pino.ChildLoggerOptions>
+    +intercept(context: ExecutionContext, next: CallHandler<any>): Observable<any>
+}
+interface User {
+    +userId: number
+    +username: string
+    +password: string
+    +email: string
+    +roles: Role[]
+}
+class UserService {
+    +#users: User[]
+    +#logger: pino.Logger<SonicBoom & pino.ChildLoggerOptions>
+    +findOne(username: string): Promise<User | undefined>
+    +findById(id: number | undefined): Promise<User | undefined>
+}
+interface GraphQlConfig {
+    +debug: boolean
+}
+interface NodeConfig {
+    +host: string
+    +port: number
+    +ip: string
+    +configDir: string
+    +httpsOptions: HttpsOptions | undefined
+    +nodeEnv: string | undefined
+    +serviceHost: string | undefined
+    +servicePort: string | undefined
+}
+interface JwtConfig {
+    +algorithm: string
+    +publicKey: string
+    +privateKey: string
+    +signOptions: SignOptions
+    +verifyOptions: VerifyOptions
+}
+class Schuh {
+    +marke: string | null | undefined
+    +groesse: number | null | undefined
+    +modell: string | null | undefined
+    +farbe: string | null | undefined
+    +erscheinungsdatum: string | Date | undefined
+}
+Env --> "1" NodeConfigEnv
+Env --> "1" ApolloConfigEnv
+Env --> "1" K8sConfigEnv
+Env --> "1" DbConfigEnv
+Env --> "1" AuthConfigEnv
+Env --> "1" LogConfigEnv
+Env --> "1" MailConfigEnv
+UserService --> "*" User
+UserService --> "1" User
+@enduml

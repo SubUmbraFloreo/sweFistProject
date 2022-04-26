@@ -1,3 +1,4 @@
+/* eslint-disable max-lines-per-function */
 import {
     type Schuh,
     apiPath,
@@ -12,22 +13,23 @@ import { afterAll, beforeAll, describe, test } from '@jest/globals';
 import axios, { type AxiosInstance, type AxiosResponse } from 'axios';
 import { HttpStatus } from '@nestjs/common';
 
-// Testdaten	
+// Testdaten
 const neuerSchuh: Omit<Schuh, ''> = {
-    "marke": 'Nike',
-    "groesse": 40,
-    "modell": 'Jordan 4',
-    "farbe": 'Metallic Green',
-    "erscheinungsdatum": '2004-07-24',
-}
+    marke: 'Nike',
+    groesse: 40,
+    modell: 'Jordan 4',
+    farbe: 'Metallic Green',
+    erscheinungsdatum: '2004-07-24',
+};
 const correctId = '000000000000000000000001';
 
+// eslint-disable-next-line @typescript-eslint/naming-convention
 const SchuhNichtVorhanden: Omit<Schuh, 'erscheinungsdatum'> = {
-    "marke": 'Tst',
-    "groesse": 10,
-    "modell": 'Alphabounce',
-    "farbe": 'Undye/Gum Bottom',
-}
+    marke: 'Tst',
+    groesse: 10,
+    modell: 'Alphabounce',
+    farbe: 'Undye/Gum Bottom',
+};
 const wrongId = '999999999999999999999999';
 
 /* const falscherSchuh: Record<string, unknown> = {
@@ -39,17 +41,18 @@ const wrongId = '999999999999999999999999';
 };
  */
 const alterSchuh: Omit<Schuh, ''> = {
-    "marke": 'Nike',
-    "groesse": 40,
-    "modell": 'Jordan 4',
-    "farbe": 'Metallic Green',
-    "erscheinungsdatum": '2004-07-24',
-}
+    marke: 'Nike',
+    groesse: 40,
+    modell: 'Jordan 4',
+    farbe: 'Metallic Green',
+    erscheinungsdatum: '2004-07-24',
+};
 
 // Testfunktionen
 describe('PUT /api/:id', () => {
     let client: AxiosInstance;
     const headers: Record<string, string> = {
+        // eslint-disable-next-line @typescript-eslint/naming-convention
         'Content-Type': 'application/json',
     };
 
@@ -59,6 +62,7 @@ describe('PUT /api/:id', () => {
         client = axios.create({
             baseURL,
             httpsAgent,
+            // eslint-disable-next-line @typescript-eslint/no-magic-numbers
             validateStatus: (status) => status < 500,
         });
     });
@@ -72,47 +76,34 @@ describe('PUT /api/:id', () => {
         const token = await loginRest(client);
         headers.Authorization = `Bearer ${token}`;
         headers['If-Match'] = '"0"';
-        
-        const response: AxiosResponse<string> = await client.put(url, neuerSchuh, { headers });
+
+        const response: AxiosResponse<string> = await client.put(
+            url,
+            neuerSchuh,
+            { headers },
+        );
         const { status, data } = response;
 
         expect(status).toBe(HttpStatus.NO_CONTENT);
         expect(data).toBe('');
     });
-    
+
     test('Nicht vorhandenen Schuh ändern', async () => {
         const url = `${apiPath}/${wrongId}`;
         const token = await loginRest(client);
         headers.Authorization = `Bearer ${token}`;
         headers['If-Match'] = '"0"';
-        
-        const response: AxiosResponse<string> = await client.put(url, SchuhNichtVorhanden, { headers });
+
+        const response: AxiosResponse<string> = await client.put(
+            url,
+            SchuhNichtVorhanden,
+            { headers },
+        );
         const { status } = response;
 
         expect(status).toBe(HttpStatus.PRECONDITION_FAILED);
         //expect(data).toBe('');
     });
-
-    /* test('Vorhandenen Schuh mit ungültigen Daten ändern', async () => {
-        const url = `${apiPath}/${correctId}`;
-        const token = await loginRest(client);
-        headers.Authorization = `Bearer ${token}`;
-        headers['If-Match'] = '"0"';
-        
-        const response: AxiosResponse<string> = await client.put(url, falscherSchuh, { headers });
-        const { status, data } = response;
-
-        expect(status).toBe(HttpStatus.UNPROCESSABLE_ENTITY);
-        expect(data).toBe(
-            expect.arrayContaining([
-            'Die Versionsnummer muss mindestens 0 sein',
-            'Ein Schuh muss eine Marke haben',
-            'Ein Schuh hat eine bestimmte Größe',
-            'Ein Schuh hat eine oder meherere Farben',
-            'Ein Schuh hat ein Datum, an dem er erschienen ist',
-            ])
-        );
-    }); */
 
     test('Vorhandenen Schuh ohne Versionsnummer ändern', async () => {
         const url = `${apiPath}/${correctId}`;
@@ -120,7 +111,11 @@ describe('PUT /api/:id', () => {
         headers.Authorization = `Bearer ${token}`;
         delete headers['If-Match'];
 
-        const response: AxiosResponse<string> = await client.put(url, neuerSchuh, { headers });
+        const response: AxiosResponse<string> = await client.put(
+            url,
+            neuerSchuh,
+            { headers },
+        );
         const { status, data } = response;
 
         expect(status).toBe(HttpStatus.PRECONDITION_REQUIRED);
@@ -132,11 +127,16 @@ describe('PUT /api/:id', () => {
         const token = await loginRest(client);
         headers.Authorization = `Bearer ${token}`;
         headers['If-Match'] = '"-1"';
-        
-        const response: AxiosResponse<string> = await client.put(url, alterSchuh, { headers });
+
+        const response: AxiosResponse<string> = await client.put(
+            url,
+            alterSchuh,
+            { headers },
+        );
         const { status, data } = response;
 
         expect(status).toBe(HttpStatus.PRECONDITION_FAILED);
-        expect(data).toBe("Die Versionsnummer \"\"-1\"\" ist ungültig");
+        expect(data).toBe('Die Versionsnummer ""-1"" ist ungültig');
     });
 });
+/* eslint-enable max-lines-per-function */

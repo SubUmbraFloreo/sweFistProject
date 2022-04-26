@@ -10,7 +10,13 @@ import type pino from 'pino';
  * @param kind i.a. `class`
  */
 // (context: string, kind = 'class') => pino.Logger<SonicBoom & pino.ChildLoggerOptions>
-export const getLogger: (context: string, kind?: string) => pino.Logger<SonicBoom & pino.ChildLoggerOptions> = (context: string, kind = 'class') => {
+export const getLogger: (
+    context: string,
+    kind?: string,
+) => pino.Logger<pino.ChildLoggerOptions & SonicBoom> = (
+    context: string,
+    kind = 'class',
+) => {
     const bindings: Record<string, string> = {};
     // "indexed access" auf eine Property, deren Name als Wert im Argument "kind" uebergeben wird
     // eslint-disable-next-line security/detect-object-injection

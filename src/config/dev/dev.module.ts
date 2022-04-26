@@ -1,4 +1,4 @@
-import { schuhSchema, modelName } from '../../schuh/entity/index.js';
+import { modelName, schuhSchema } from '../../schuh/entity/index.js';
 import { DbModule } from '../../db/db.module.js';
 import { DbPopulateService } from './db-populate.service.js';
 import { Module } from '@nestjs/common';

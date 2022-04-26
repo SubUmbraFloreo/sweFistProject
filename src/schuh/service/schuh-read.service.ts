@@ -9,9 +9,13 @@ import { ObjectID } from 'bson';
 import { getLogger } from '../../logger/index.js';
 import mongoose from 'mongoose';
 
+/**
+ * Service Klasse für das Lesen an der REST-Schnitstelle
+ */
 @Injectable()
 export class SchuhReadService {
     readonly #schuhModel: mongoose.Model<SchuhDocument>;
+
     readonly #logger = getLogger(SchuhReadService.name);
 
     constructor(
@@ -20,12 +24,17 @@ export class SchuhReadService {
         this.#schuhModel = schuhModel;
     }
 
+    /**
+     * Funktion um einen Schuh anhand seiner Id zu finden
+     * @param idStr Die ID als String
+     * @returns Den gefundenen Schuh oder undefined
+     */
     async findById(idStr: string) {
         this.#logger.debug('findById: idStr=%s', idStr);
 
         if (!ObjectID.isValid(idStr)) {
             this.#logger.debug('findById: Ungültige ObjectID');
-            return undefined;
+            return;
         }
 
         const id = new ObjectID(idStr);
@@ -35,6 +44,11 @@ export class SchuhReadService {
         return schuh || undefined;
     }
 
+    /**
+     * Funktion um alle Schuhe zu finden, die ein Kriterium erfüllen
+     * @param filter Das Filterkriterium nach dem gefiltert wird
+     * @returns Eine Liste mit den gefundenen Schuhen, die zu den Kriterien passten
+     */
     async find(filter?: mongoose.FilterQuery<SchuhDocument> | undefined) {
         this.#logger.debug('find: filter=%o', filter);
 
@@ -42,7 +56,8 @@ export class SchuhReadService {
             return this.#findAll();
         }
 
-        const { marke, javascript, typescript,...dbFilter } = filter;
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/no-unsafe-assignment
+        const { marke, javascript, typescript, ...dbFilter } = filter;
 
         if (this.#checkInvalidProperty(dbFilter)) {
             return [];
@@ -54,9 +69,8 @@ export class SchuhReadService {
             typeof marke === 'string'
         ) {
             dbFilter.marke =
-                marke.length < 20
-                    ? new RegExp(marke, 'iu')
-                    : marke;
+                // eslint-disable-next-line security/detect-non-literal-regexp, @typescript-eslint/no-magic-numbers, security-node/non-literal-reg-expr
+                marke.length < 20 ? new RegExp(marke, 'iu') : marke;
         }
 
         const schuhe = await this.#schuhModel.find(

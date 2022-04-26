@@ -1,8 +1,8 @@
 import {
-    type SchuhNotExists,
     type FileFindError,
     type FileNotFound,
     type MultipleFiles,
+    type SchuhNotExists,
 } from './errors.js';
 import {
     GridFSBucket,
@@ -17,14 +17,14 @@ import { dbConfig } from '../../config/index.js';
 import { getLogger } from '../../logger/index.js';
 import intoStream from 'into-stream';
 
-/** 
+/**
  * Das Interface beschreibt das Resultat bei einer gefundenen, binären Datei und besteht aus dem
  * Stream zum Lesen, sowie dem MIME-Type
  */
 export interface FileFindSuccess {
     type: 'FileFindSuccess';
     readStream: GridFSBucketReadStream;
-    contentType: string,
+    contentType: string;
 }
 
 /**
@@ -91,7 +91,7 @@ export class SchuhFileService {
      * - {@linkcode MultipleFiles}
      */
     async find(filename: string): Promise<FileFindError | FileFindSuccess> {
-        this.#logger.debug('find: filename=%s',filename);
+        this.#logger.debug('find: filename=%s', filename);
         const resultCheckFilename = await this.#checkFileName(filename);
         if (resultCheckFilename !== undefined) {
             return resultCheckFilename;
@@ -128,7 +128,9 @@ export class SchuhFileService {
         );
     }
 
-    async #checkFileName(filename: string): Promise<SchuhNotExists | undefined> {
+    async #checkFileName(
+        filename: string,
+    ): Promise<SchuhNotExists | undefined> {
         this.#logger.debug('#checkFilename: filename=%s', filename);
 
         const schuh = await this.#service.findById(filename);

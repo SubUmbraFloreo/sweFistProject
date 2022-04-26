@@ -1,0 +1,56 @@
+= Entwicklerhandbuch
+Jakob Krumke <krja1032@h-ka.de>
+:doctype: book
+:toc: left
+:toclevels: 2
+:toc-title: Inhaltsverzeichnis
+:sectanchors:
+:sectlinks:
+:sectnums:
+:source-highlighter: coderay
+:icons: font
+
+== Der Applikationsserver
+=== Der Server im Überblick
+Der Server ist ein einfacher Webserver, der die Anfragen an die Datenbank weiterleitet.
+
+.Use Cases
+[plantuml, use-cases, svg]
+----
+include::use-cases.puml[]
+----
+
+Das Komponentendiagramm zeigt die Verbindungen zwischen den Komponenten.
+
+.Komponentendiagramm
+[plantuml, komponenten, svg]
+----
+include::komponenten.puml[]
+----
+
+=== Die REST-Schnittstelle
+Die REST-Schnittstelle ist eine Schnittstelle, die die Anfragen an den Server weiterleitet.
+
+.Controller für die Rest-Schnittstelle
+[plantuml, SchuhController, svg]
+----
+include::SchuhController.puml[]
+----
+
+=== Der Anwendungskern
+Der Anwendungskern ist eine Komponente, die die Anfragen an die Datenbank weiterleitet.
+
+.Anwendungskern
+[plantuml, SchuhService, svg]
+----
+include::SchuhService.puml[]
+----
+
+=== Klasse für Entity und MongoDB-Dokument
+Die Klasse für die Entity und das MongoDB-Dokument
+
+[plantuml, Schuh, svg]
+----
+include::Schuh.puml[]
+----
+

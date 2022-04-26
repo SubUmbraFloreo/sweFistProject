@@ -6,11 +6,11 @@ import {
 import {
     SchuhFileService,
     SchuhReadService,
-    SchuhWriteService,
     SchuhValidationService,
+    SchuhWriteService,
 } from './service/index.js';
-import { SchuhQueryResolver, SchuhMutationResolver } from './graphql/index.js';
-import { schuhSchema, collectionName } from './entity/index.js';
+import { SchuhMutationResolver, SchuhQueryResolver } from './graphql/index.js';
+import { collectionName, schuhSchema } from './entity/index.js';
 import { AuthModule } from '../security/auth/auth.module.js';
 import { DbModule } from '../db/db.module.js';
 import { Module } from '@nestjs/common';
@@ -33,7 +33,11 @@ import { MongooseModule } from '@nestjs/mongoose';
         AuthModule,
         DbModule,
     ],
-    controllers: [SchuhFileController, SchuhGetController, SchuhWriteController],
+    controllers: [
+        SchuhFileController,
+        SchuhGetController,
+        SchuhWriteController,
+    ],
     providers: [
         SchuhFileService,
         SchuhReadService,

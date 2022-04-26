@@ -36,9 +36,11 @@ describe('DELETE /api/schuhe', () => {
     test('Vorhandenen Schuh löschen', async () => {
         const url = `${apiPath}/${id}`;
         const tokn = await loginRest(client);
-        const headers = { Authorization: `Bearer ${tokn}` };
+        const headers = { Authorization: `Bearer ${tokn}` }; // eslint-disable-line @typescript-eslint/naming-convention
 
-        const response: AxiosResponse<string> = await client.delete(url, { headers });
+        const response: AxiosResponse<string> = await client.delete(url, {
+            headers,
+        });
 
         const { status, data } = response;
 

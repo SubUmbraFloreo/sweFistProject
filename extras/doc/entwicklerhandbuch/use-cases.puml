@@ -1,0 +1,24 @@
+@startuml Use Cases
+
+actor Gast
+actor Admin
+actor Kunde
+
+rectangle kunde {
+    Gast --> (Schuh suchen)
+    Admin --> (Schuh suchen)
+    Admin --> (Schuh anlegen)
+    Admin --> (Schuh ändern)
+    Admin --> (Schuh löschen)
+    Admin --> (Datei hochladen)
+    Admin --> (Datei herunterladen)
+    Kunde --> (Schuh suchen)
+    Kunde --> (Schuh anlegen)
+    Kunde --> (Schuh ändern)
+    Kunde --> (Datei herunterladen)
+}
+
+footer (c) Jürgen Zimmermann
+
+@enduml
+

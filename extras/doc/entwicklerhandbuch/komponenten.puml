@@ -1,0 +1,46 @@
+@startuml Komponenten
+
+left to right direction
+
+actor RESTClient
+actor GraphQLClient
+
+node "Nest" {
+    [RequestLoggerMiddleware]
+    [SchuhController]
+    [SchuhResolver]
+    [SchuhFileController]
+    [SchuhService]
+    [SchuhFileService]
+
+    [Schuh]
+}
+
+cloud {
+    [Mongoose]
+}
+
+cloud {
+    [MongoDB\nNative Driver]
+}
+
+RESTClient ~~> [RequestLoggerMiddleware]
+GraphQLClient ~~> [RequestLoggerMiddleware]
+
+[RequestLoggerMiddleware] ~~> [SchuhController]
+[RequestLoggerMiddleware] ~~> [SchuhResolver]
+[RequestLoggerMiddleware] ~~> [SchuhFileController]
+
+[SchuhController] --> [SchuhService]
+[SchuhResolver] --> [SchuhService]
+[SchuhFileController] --> [SchuhFileService]
+[SchuhService] ..> [Schuh]
+
+[Schuh] ~~> [Mongoose]
+[SchuhFileService] ~~> [MongoDB\nNative Driver]
+[Mongoose] ~~> [Collection Schuh]
+[MongoDB\nNative Driver] ~~> [GridFS]
+
+footer (c) Jakob Krumke
+
+@enduml

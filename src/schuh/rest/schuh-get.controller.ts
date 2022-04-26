@@ -1,7 +1,8 @@
 /**
  * Controller Klasse für das Lesen an der REST-Schnitstelle
  */
- import {
+// eslint-disable-next-line max-classes-per-file
+import {
     ApiBearerAuth,
     ApiHeader,
     ApiNotFoundResponse,
@@ -12,7 +13,8 @@
     ApiResponse,
     ApiTags,
 } from '@nestjs/swagger';
-import { Schuh, SchuhDocument } from '../entity/schuh.js'
+import type { SchuhDocument } from '../entity/schuh.js';
+import { Schuh } from '../entity/schuh.js';
 import {
     Controller,
     Get,
@@ -48,15 +50,20 @@ interface Links {
 // Interface für Get-Requests mit Links für HATOAS
 // VO = Value object
 export interface SchuhVO extends Schuh {
+    // eslint-disable-next-line @typescript-eslint/naming-convention
     _links: Links;
 }
 
 export interface SchuheVO {
+    // eslint-disable-next-line @typescript-eslint/naming-convention
     _embedded: {
         schuhe: SchuhVO[];
     };
 }
 
+/**
+ * Klasse für den GetController um Queries in OpenAPI und Swagger zu unterstützen
+ */
 export class SchuhQuery extends Schuh {
     @ApiProperty({ required: false })
     override readonly marke: string | undefined;
@@ -91,6 +98,7 @@ export class SchuhGetController {
     constructor(service: SchuhReadService) {
         this.#service = service;
     }
+
     /**
      * Ein Schuh wird anhand seiner Id gesucht
      * Hier wird optimistisch geschützt
@@ -101,11 +109,12 @@ export class SchuhGetController {
      * @param res Leeres Response-Objekt von Express
      * @returns Leeres Promise
      */
+    // eslint-disable-next-line max-params
     @Get(':id')
-    @ApiOperation({ summary: 'Schuh mit der Id suchen '})
+    @ApiOperation({ summary: 'Schuh mit der Id suchen ' })
     @ApiParam({
         name: 'id',
-        description: 'z.B. 000000000000000000000001'
+        description: 'z.B. 000000000000000000000001',
     })
     @ApiHeader({
         name: 'If-None-Match',
@@ -113,10 +122,12 @@ export class SchuhGetController {
         required: false,
     })
     @ApiOkResponse({ description: 'Der Schuh wurde gefunden' })
-    @ApiNotFoundResponse({ description: 'Es konnte kein Schuh mit dieser Id gefunden werden' })
+    @ApiNotFoundResponse({
+        description: 'Es konnte kein Schuh mit dieser Id gefunden werden',
+    })
     @ApiResponse({
         status: HttpStatus.NOT_MODIFIED,
-        description: 'Dieser Schuh wurde bereits abgefragt'
+        description: 'Dieser Schuh wurde bereits abgefragt',
     })
     async findById(
         @Param('id') id: string,
@@ -157,7 +168,8 @@ export class SchuhGetController {
         const schuhVO = this.#toVO(schuh, req, id);
         this.#logger.debug('findById: schuhVO=%o', schuhVO);
         return res.json(schuhVO);
-    }   
+    }
+
     /**
      * Alle Schuhe werden gesucht
      * @param query Query-Parameter von Express
@@ -167,13 +179,15 @@ export class SchuhGetController {
      */
     @Get()
     @ApiOperation({ summary: 'Schuhe mit Suchkriterien suchen' })
-    @ApiOkResponse({ description: 'Eine Liste mit Schuhen, kann auch leer sein' })
+    @ApiOkResponse({
+        description: 'Eine Liste mit Schuhen, kann auch leer sein',
+    })
     async find(
         @Query() query: SchuhQuery,
         @Req() req: Request,
         @Res() res: Response,
     ) {
-        this.#logger.debug('find: query=%o', query)
+        this.#logger.debug('find: query=%o', query);
 
         if (req.accepts(['json', 'html']) === false) {
             this.#logger.debug('find: acceped=%o', req.accepted);
@@ -193,7 +207,7 @@ export class SchuhGetController {
         });
         this.#logger.debug('find: schuheVO=%o', schuheVO);
 
-        const erg: SchuheVO = { _embedded: { schuhe: schuheVO} };
+        const erg: SchuheVO = { _embedded: { schuhe: schuheVO } };
         return res.json(erg).send();
     }
 
@@ -204,27 +218,31 @@ export class SchuhGetController {
      * @param id Die Id des Schuhs
      * @returns  Das Value Object
      */
+    // eslint-disable-next-line max-params
     #toVO(schuh: SchuhDocument, req: Request, id: string, all = true) {
         const baseUri = getBaseUri(req);
         this.#logger.debug('#toVO: baseUri=%s', baseUri);
-        const links = all ? {
-            self: { href: `${baseUri}/${id}` },
-            list: { href: `${baseUri}` },
-            add: { href: `${baseUri}` },
-            update: { href: `${baseUri}/${id}` },
-            remove: { href: `${baseUri}/${id}` },
-        }
-      : { self: { href: `${baseUri}/${id}` } };
-      this.#logger.debug('toVO: schuh=%o, links=%o', schuh, links);
+        const links = all
+            ? {
+                  self: { href: `${baseUri}/${id}` },
+                  list: { href: `${baseUri}` },
+                  add: { href: `${baseUri}` },
+                  update: { href: `${baseUri}/${id}` },
+                  remove: { href: `${baseUri}/${id}` },
+              }
+            : { self: { href: `${baseUri}/${id}` } };
+        this.#logger.debug('toVO: schuh=%o, links=%o', schuh, links);
 
-    const schuhVO: SchuhVO = {
-        marke: schuh.marke,
-        groesse: schuh.groesse,
-        modell: schuh.modell,
-        farbe: schuh.farbe,
-        erscheinungsdatum: schuh.erscheinungsdatum,
-        _links: links,
-    };
-    return schuhVO;
+        const schuhVO: SchuhVO = {
+            marke: schuh.marke,
+            groesse: schuh.groesse,
+            modell: schuh.modell,
+            farbe: schuh.farbe,
+            erscheinungsdatum: schuh.erscheinungsdatum,
+            _links: links,
+        };
+        return schuhVO;
     }
 }
+
+// eslint-enable-next-line max-classes-per-file

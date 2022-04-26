@@ -63,18 +63,22 @@ describe('Login', () => {
         expect(headers['content-type']).toMatch(/json/iu);
         expect(data.errors).toBeUndefined();
         expect(data.data).not.toBeNull();
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         expect(data.data!.login).not.toBeNull();
 
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         const { login } = data.data!;
 
         expect(login).toBeDefined();
         expect(login).not.toBeNull();
 
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
         const { token } = login;
 
         expect(token).toBeDefined();
         expect(token).not.toBeNull();
 
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
         const tokenParts = token.split('.');
 
         expect(tokenParts).toHaveLength(3); // eslint-disable-line @typescript-eslint/no-magic-numbers
@@ -109,21 +113,23 @@ describe('Login', () => {
 
         expect(status).toBe(HttpStatus.OK);
         expect(headers['content-type']).toMatch(/json/iu);
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         expect(data.data!.login).toBeNull();
 
         const { errors } = data;
 
         expect(errors).toBeDefined();
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         expect(errors!).toHaveLength(1);
 
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         const error = errors![0]!;
         const { message, path, extensions } = error;
 
         expect(message).toBe('Falscher Benutzername oder falsches Passwort');
         expect(path).toBeDefined();
-        expect(path!![0]).toBe('login');
+        expect(path?.[0]).toBe('login');
         expect(extensions).toBeDefined();
-        expect(extensions!.code).toBe('BAD_USER_INPUT');
+        expect(extensions?.code).toBe('BAD_USER_INPUT');
     });
 });
-/* eslint-enable @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-non-null-assertion, , @typescript-eslint/no-extra-non-null-assertion */

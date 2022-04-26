@@ -1,7 +1,7 @@
 import { Args, Mutation, Resolver } from '@nestjs/graphql';
 import {
-    SchuhWriteService,
     type CreateError,
+    SchuhWriteService,
     type UpdateError,
 } from '../service/index.js';
 import {
@@ -30,11 +30,15 @@ interface Id {
     id: string;
 }
 
+/**
+ * Controller Klasse für GraphQl Mutations
+ */
 @Resolver()
 @UseGuards(JwtAuthGraphQlGuard, RolesGraphQlGuard)
 @UseInterceptors(ResponseTimeInterceptor)
 export class SchuhMutationResolver {
     readonly #service: SchuhWriteService;
+
     readonly #logger = getLogger(SchuhMutationResolver.name);
 
     constructor(service: SchuhWriteService) {
@@ -60,12 +64,11 @@ export class SchuhMutationResolver {
         this.#logger.debug('update: inputVO=%o', inputVO);
         const { id, version, schuh } = inputVO;
         const versionString = `"${(version ?? 0).toString()}"`;
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         const result = await this.#service.update(id!, schuh, versionString);
 
         if (typeof result === 'object') {
-            throw new UserInputError(
-                this.#errorMessageUpdate(result as UpdateError),
-            );
+            throw new UserInputError(this.#errorMessageUpdate(result));
         }
         this.#logger.debug('update: result=%s', result);
         return result;

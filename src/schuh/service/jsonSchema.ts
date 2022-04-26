@@ -8,6 +8,7 @@ export const jsonSchema: GenericJsonSchema = {
     type: 'object',
     properties: {
         _id: { type: 'object' },
+        // eslint-disable-next-line @typescript-eslint/naming-convention
         __v: {
             type: 'number',
             minimum: 0,
@@ -17,15 +18,15 @@ export const jsonSchema: GenericJsonSchema = {
             minimum: 0,
         },
         marke: { type: 'string' },
-        groesse: { 
+        groesse: {
             type: 'number',
             minimum: 0,
         },
         modell: { type: 'string' },
         farbe: { type: 'string' },
-        erscheinungsdatum: { 
+        erscheinungsdatum: {
             type: 'string',
-            format: 'date'
+            format: 'date',
         },
     },
 
@@ -37,7 +38,8 @@ export const jsonSchema: GenericJsonSchema = {
             marke: 'Ein Schuh muss eine Marke haben',
             groesse: 'Ein Schuh hat eine bestimmte Größe',
             farbe: 'Ein Schuh hat eine oder meherere Farben',
-            erscheinungsdatum: 'Ein Schuh hat ein Datum, an dem er erschienen ist',
+            erscheinungsdatum:
+                'Ein Schuh hat ein Datum, an dem er erschienen ist',
         },
     },
 };

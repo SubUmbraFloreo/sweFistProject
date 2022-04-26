@@ -4,7 +4,7 @@ import {
     type NestModule,
 } from '@nestjs/common';
 import { dbConfig, graphQlConfig } from './config/index.js'; //graphqlConfig
-import { ApolloDriver } from '@nestjs/apollo'; 
+import { ApolloDriver } from '@nestjs/apollo';
 import { AuthModule } from './security/auth/auth.module.js';
 import { SchuhModule } from './schuh/schuh.module.js';
 import { DbModule } from './db/db.module.js';
@@ -22,7 +22,7 @@ import { RequestLoggerMiddleware } from './logger/index.js';
         SchuhModule,
         MongooseModule.forRoot(dbConfig.url),
         DbModule,
-        DevModule,    
+        DevModule,
         GraphQLModule.forRoot({
             typePaths: ['./**/*.graphql'],
             // alternativ: Mercurius (statt Apollo) fuer Fastify (statt Express)

@@ -24,8 +24,8 @@ import {
     UseInterceptors,
 } from '@nestjs/common';
 import {
-    SchuhWriteService,
     type CreateError,
+    SchuhWriteService,
     type UpdateError,
 } from '../service/index.js';
 import { JwtAuthGuard, Roles, RolesGuard } from '../../security/index.js';
@@ -46,6 +46,7 @@ import { paths } from '../../config/index.js';
 @ApiBearerAuth()
 export class SchuhWriteController {
     readonly #service: SchuhWriteService;
+
     readonly #logger = getLogger(SchuhWriteController.name);
 
     constructor(service: SchuhWriteService) {
@@ -77,7 +78,7 @@ export class SchuhWriteController {
 
         const location = `${getBaseUri(req)}/${(
             result as ObjectId
-        ).toString()}`
+        ).toString()}`;
         this.#logger.debug('create: location=%s', location);
         return res.location(location).send();
     }
@@ -106,7 +107,9 @@ export class SchuhWriteController {
     })
     @ApiNoContentResponse({ description: 'Erfolgreich aktualisiert' })
     @ApiBadRequestResponse({ description: 'Ungültige Daten' })
-    @ApiPreconditionFailedResponse({ description: 'Ungültige Versionsnummer im Header' })
+    @ApiPreconditionFailedResponse({
+        description: 'Ungültige Versionsnummer im Header',
+    })
     @ApiResponse({
         status: HttpStatus.PRECONDITION_REQUIRED,
         description: 'Header mit "If-Match" fehlt',
@@ -115,9 +118,14 @@ export class SchuhWriteController {
         @Body() schuh: Schuh,
         @Param('id') id: string,
         @Headers('If-match') version: string | undefined,
-        @Res () res: Response,
+        @Res() res: Response,
     ) {
-        this.#logger.debug('update: schuh=%o, id=%s, version=%s', schuh, id, version);
+        this.#logger.debug(
+            'update: schuh=%o, id=%s, version=%s',
+            schuh,
+            id,
+            version,
+        );
 
         if (version === undefined) {
             const msg = 'Header mit "If-Match" fehlt';
@@ -151,8 +159,10 @@ export class SchuhWriteController {
         description: 'Header für JSON Web Token',
         required: true,
     })
-    @ApiNoContentResponse({ description: 'Erfolgreich gelöscht oder vorher schon nicht vorhanden' })
-    async delete (@Param('id') id: string, @Res () res: Response) {
+    @ApiNoContentResponse({
+        description: 'Erfolgreich gelöscht oder vorher schon nicht vorhanden',
+    })
+    async delete(@Param('id') id: string, @Res() res: Response) {
         this.#logger.debug('delete: id=%s', id);
 
         let deleted: boolean;
@@ -177,11 +187,9 @@ export class SchuhWriteController {
         }
     }
 
-        
     #handleValidationError(messages: readonly string[], res: Response) {
         this.#logger.debug('#handleValidationError: messages=%o', messages);
-        return res.sendStatus(HttpStatus.UNPROCESSABLE_ENTITY)
-            .send(messages);
+        return res.sendStatus(HttpStatus.UNPROCESSABLE_ENTITY).send(messages);
     }
 
     #handleUpdateError(err: UpdateError, res: Response) {
@@ -191,7 +199,7 @@ export class SchuhWriteController {
 
             case 'SchuhNotExists': {
                 const { id } = err;
-                const msg =`Es konnte kein Schuh mit der Id "${id}" gefunden werden`;
+                const msg = `Es konnte kein Schuh mit der Id "${id}" gefunden werden`;
                 this.#logger.debug('#handleUpdateError: %s', msg);
                 return res
                     .status(HttpStatus.PRECONDITION_FAILED)
@@ -213,6 +221,4 @@ export class SchuhWriteController {
                 return res.sendStatus(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-
-    /* eslint-enable max-lines */
 }

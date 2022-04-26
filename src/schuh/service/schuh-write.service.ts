@@ -1,7 +1,7 @@
 import { type Schuh, type SchuhDocument, modelName } from '../entity/schuh.js';
 import {
-    type SchuhNotExists,
     type CreateError,
+    type SchuhNotExists,
     type UpdateError,
     type VersionInvalid,
     type VersionOutdated,
@@ -27,7 +27,9 @@ export class SchuhWriteService {
     private static readonly VERSION_PATTERN = new RE2('^"\\d*"');
 
     readonly #schuhModel: mongoose.Model<SchuhDocument>;
+
     readonly #validationService: SchuhValidationService;
+
     readonly #logger = getLogger(SchuhWriteService.name);
 
     constructor(
@@ -78,7 +80,7 @@ export class SchuhWriteService {
         );
         if (!ObjectID.isValid(id)) {
             this.#logger.debug('update: id=%s is not valid', id);
-            return { type: 'SchuhNotExists', id}
+            return { type: 'SchuhNotExists', id };
         }
 
         const validateResult = await this.#validateUpdate(schuh, id, version);
@@ -92,15 +94,17 @@ export class SchuhWriteService {
             schuh,
             options,
         );
-        this.#logger.debug("Test: updated=%o", updated);
+        this.#logger.debug('Test: updated=%o', updated);
         if (updated === null) {
             this.#logger.debug('update: schuh=%o not found', schuh);
             return { type: 'SchuhNotExists', id };
         }
 
+        // eslint-disable-next-line unicorn/no-keyword-prefix
         const newVersion = updated.__v as number;
         this.#logger.debug('update: versionUpdated=%d', newVersion);
 
+        // eslint-disable-next-line unicorn/no-keyword-prefix
         return newVersion;
     }
 
@@ -123,10 +127,15 @@ export class SchuhWriteService {
         return deleted !== null;
     }
 
+    // eslint-disable-next-line @typescript-eslint/require-await
     async #validateCreate(schuh: Schuh): Promise<CreateError | undefined> {
         const messages = this.#validationService.validate(schuh);
         if (messages.length > 0) {
-            this.#logger.debug('validateCreate: schuh=%o, messages=%o', schuh, messages);
+            this.#logger.debug(
+                'validateCreate: schuh=%o, messages=%o',
+                schuh,
+                messages,
+            );
             return { type: 'ConstraintViolations', messages };
         }
         this.#logger.debug('#validateCreate: ok');
@@ -163,7 +172,7 @@ export class SchuhWriteService {
         this.#logger.debug('#validateUpdate: ok');
         return undefined;
     }
-        
+
     #validateVersion(version: string | undefined): VersionInvalid | number {
         if (
             version === undefined ||
@@ -173,7 +182,8 @@ export class SchuhWriteService {
             this.#logger.debug('#validateVersion: VersionInvalid=%o', error);
             return error;
         }
-        
+
+        // eslint-disable-next-line unicorn/prefer-string-slice
         return Number.parseInt(version.substring(1, version.length - 1), 10);
     }
 
@@ -187,7 +197,7 @@ export class SchuhWriteService {
             this.#logger.debug('#checkIdAndVersion: SchuhNotExists=%o', result);
             return result;
         }
-        
+
         const versionDb = (schuhDb.__v ?? 0) as number;
         if (version < versionDb) {
             const result: VersionOutdated = {
@@ -195,7 +205,10 @@ export class SchuhWriteService {
                 id,
                 version,
             };
-            this.#logger.debug('#checkIdAndVersion: VersionOutdated=%o', result);
+            this.#logger.debug(
+                '#checkIdAndVersion: VersionOutdated=%o',
+                result,
+            );
             return result;
         }
         return undefined;

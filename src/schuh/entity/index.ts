@@ -1,9 +1,9 @@
 /**
  * Implementierung der Entity gemäß DDD
  */
+export type { SchuhDocument } from './schuh.js';
 export {
     Schuh,
-    SchuhDocument,
     schuhSchema,
     collectionName,
     exactFilterProperties,

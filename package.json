@@ -32,7 +32,7 @@
     "depcheck": "depcheck",
     "deploy:heroku": "git push heroku master",
     "deploy:prepare": "concurrently --prefix \"[{name}]\" --names \"ESLint,copy-resources,TypeScript\" --prefix-colors \"yellow.bold,gray.bold,cyan.bold,green.bold\" \"npm run eslint\" \"npm run copy-resources\" \"npm run tsc\"",
-    "eslint": "eslint --ext .ts ./src ./__tests__",
+    "eslint": "eslint --ext .ts ./src ./__tests__ --fix",
     "copy-resources": "node scripts/copy-resources",
     "leasot": "leasot --exit-nicely src/**/*.ts",
     "heroku:browser": "heroku open --app ancient-anchorage-02422 /api/000000000000000000000001",

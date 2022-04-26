@@ -1,0 +1,119 @@
+= Beispiel mit Nest, REST, GraphQL, Mongoose, JWT und Jest
+
+Jakob Krumke <krj1032@h-ka.de>
+
+== Gliederung
+
+* Werkzeuge
+* Nest und REST
+* Nest und GraphQL
+* Mongoose
+* Security
+* Jest
+* OpenAPI durch Swagger
+
+== Werkzeuge
+
+* Infrastruktur
+* Entwicklungsumgebung
+* CI und Deployment
+* Dokumentation
+
+=== Infrastruktur
+
+* npm
+* node_modules
+* ts-node
+
+=== Entwicklungsumgebung
+
+* VS Code
+* TypeScript und ES 2015+
+* ESLint und SonarQube
+* Prettier
+* RESTclient, auch für GraphQL
+
+=== CI und Deployment
+
+* pack für Docker Images
+* Kubernetes
+  - Kustomize
+  - (Skaffold)
+  - Lens und Octant: Pods, Logs
+* Heroku und Buildpack
+
+=== Dokumentation
+
+* AsciiDoctor mit PlantUML
+* reveal.js
+
+== Nest und REST
+
+* Controller mit `@Controller()` usw.
+* Services durch `@Injectable`
+* Entity-Klasse mit `@Schema()` und `@Prop()` für Mongoose
+* Guards und Strategies
+* Middleware, z.B. `RequestLoggerMiddleware`
+* Interceptor, z.B. für Antwortzeit und Statuscode
+* `@Module()`
+
+=== Decorator für die Controller-Klasse
+
+* `@Controller()`
+* `@UseGuards()`
+* `@UseInterceptors()`
+
+=== Decorator für die Controller-Funktionen
+
+* `@Get()`, `@Post()`, `@Put()`, `@Delete()`
+* `@Param()`, `@Query()`
+* `@Req()`, `@Res()`, `@Body()`, `@Header()`
+* `@Roles()`
+
+== Nest und GraphQL
+
+* Wrapper für Apollo Server
+* Schema-Definition mit Typen, Query und Mutation
+* Resolver mit `@Resolver()`, `@Query()`, `@Mutation()`, `@Args()`
+* RESTclient
+
+== Mongoose
+
+* Pattern _Active Record_
+* Document
+* JSON
+* GridFS
+
+== Security
+
+* JWT
+  - Private und Public Key
+  - Header
+  - Payload
+  - Signature
+* Guards durch Nest für RBAC
+* Lokale Strategie für Passport
+* Argon2
+
+=== JWT
+
+* Header
+  - alg, z.B. RS256
+  - typ
+*  Payload
+  - iat (issued at)
+  - exp (expiration)
+  - iss (issuer)
+
+== Jest, Axios und Istanbul
+
+* Jest
+* ts-jest
+* Axios
+* Istanbul
+
+== OpenAPI durch Swagger
+
+* Wrapper durch Nest
+* @Api...() einschl. `@ApiBearerAuth()`
+* Button _Try it out_

@@ -2,7 +2,7 @@ import {
     Injectable,
     Logger,
     type OnApplicationShutdown,
-    ShutdownSignal
+    ShutdownSignal,
 } from '@nestjs/common';
 import { MongoClient } from 'mongodb';
 import { dbConfig } from '../config/db.js';

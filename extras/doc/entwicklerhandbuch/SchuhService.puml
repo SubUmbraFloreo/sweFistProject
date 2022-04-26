@@ -1,0 +1,47 @@
+@startuml Anwendungskern
+
+interface Promise<T>
+
+package @nestjs/common {
+  class "function Injectable(): ClassDecorator" as Injectable
+  hide Injectable circle
+}
+
+package mongoose {
+  class FilterQuery
+  hide FilterQuery circle
+}
+
+package Schuh {
+    package entity {
+        class Schuh
+        class SchuhDocument
+    }
+
+    package service #DDDDDD {
+        class SchuhInvalid
+        class VersionOutDated
+        class VersionInvalid
+
+        SchuhService .up.> Promise
+        SchuhService .up.> Schuh
+        SchuhService .up.> SchuhDocument
+        SchuhService .up.> SchuhValidationService
+        SchuhService .up.> SchuhInvalid
+        SchuhService .up.> VersionOutDated
+        SchuhService .up.> FilterQuery
+        SchuhService .up.> Injectable
+
+        class SchuhService << control >> <<@Injectable()>> {
+            + async findById(id: string): Promise<SchuhDocument | undefined>
+            + async find(query?: FilterQuery<SchuhDocument>): Promise<SchuhDocument[]>
+            + async create(schuh: Schuh): Promise<string|SchuhInvalid>
+            + async update(schuh: Schuh, id: string, version: string): Promise<number|SchuhInvalid|VersionOutDated|VersionInvalid>
+            + async delete(id: string): Promise<boolean>
+        }
+        VersionOutDated -[hidden]-> SchuhDocument
+    }
+}
+
+footer (c) Jakob Krumke
+@enduml

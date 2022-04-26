@@ -578,7 +578,7 @@ rules:
   require-unicode-regexp: error
   rest-spread-spacing: error
   semi-spacing: error
-  sort-imports: error
+  sort-imports: off
   space-before-blocks: error
   # siehe @typescript-eslint/space-before-function-paren
   space-before-function-paren: 0

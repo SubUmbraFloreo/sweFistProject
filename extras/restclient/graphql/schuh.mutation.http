@@ -5,7 +5,7 @@ Content-Type: application/json
 X-REQUEST-TYPE: GraphQL
 
 mutation {
-  login(username: "admin", password: "p") { token expiresIn roles }
+  login(username: "admin", password: "") { token expiresIn roles }
 }
 
 ###  Anlegen eines neuen Schuh Datensatzes

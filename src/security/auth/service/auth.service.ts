@@ -57,9 +57,10 @@ export class AuthService {
         }
 
         this.#logger.debug('validateUser: password=*****'); //NOSONAR
-        // eslint-disable-next-line prettier/prettier
-        if (!await this.#checkPassword(user, pass)) {
-            this.#logger.debug('validateUser: Falsches password.');
+
+        // eslint-disable-next-line @typescript-eslint/no-extra-parens
+        if (!(await this.#checkPassword(user, pass))) {
+            this.#logger.debug('validateUser: Falsches Passwort.');
             return;
         }
 
