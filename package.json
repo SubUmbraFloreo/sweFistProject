@@ -42,7 +42,6 @@
     "pack": "pack build jakobkrumke/schuh:1.0.0 --builder paketobuildpacks/builder:base",
     "pack:clear-cache": "pack build jakobkrumke/schuh:1.0.0 --builder paketobuildpacks/builder:base --clear-cache",
     "pack:inspect": "pack inspect jakobkrumke/schuh:1.0.0",
-
     "prettier": "prettier --write \"src/**/*.ts\" \"__tests__/**/*.ts\"",
     "prettier:check": "prettier --check \"src/**/*.ts\" \"__tests__/**/*.ts\"",
     "revealjs": "asciidoctor-revealjs extras/doc/folien/folien.adoc",
