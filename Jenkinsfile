@@ -23,9 +23,9 @@ pipeline {
     // Umgebungsvariable:
     environment {
         // Atlas:
-        DB_HOST = 'cluster0.0eq6f.mongodb.net'
-        DB_USER = 'user_atlas'
-        DB_PASS = 'password_atlas'
+        DB_HOST = 'cluster0.cjgfr.mongodb.net'
+        DB_USER = 'admin'
+        DB_PASS = 'ipt6A2NoHEFcZecd9gsn'
         DB_POPULATE = true
         DB_POPULATE_FILES = true
 
